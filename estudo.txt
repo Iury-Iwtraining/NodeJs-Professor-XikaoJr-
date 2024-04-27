@@ -1,0 +1,79 @@
+import express from "express";
+import cadastroRouter from "./routers/cadastro.js";
+//importando o Express com o ES6
+//Ao importar é necessário informar no package json um type module;
+
+//Iniciando o Express dentro de uma variável;
+const app = express();
+
+//Com a inicalização do Express, agora eu posso utilizar os atributos do Express
+//Através de middwlarers eu posso informar ao Express a forma que quero trabalhar.
+//Por exemplo, se eu quiser que todas as requisições sejam convertidas em JSON, eu apenas instancio o Express através do atribulo USE para inserir um middwlare
+
+app.use(express.json());
+
+//Acabei de informar que toda requisição que vier no Body seja convertida em Json.
+//Perceba que desta forma eu não preciso dar um parse em toda requisição com um método JSON.parse('variavel'.body);
+//Agora já configurado e explicado que eu vou trabalhar com JSON em toda requisição... o próximo passo é criar as rotas.
+
+//Para pegar as requisições do body eu vou utilizar minha variável que eu instanciei o Express e ultilizar os métodos já definidos.
+
+app.get("/", (req, res) => {
+    res.send("Testando...");
+})
+
+//Criando uma segunda rota
+
+app.post("/cadastro",(req, res) =>{
+    let novoMedico = {
+        nome: req.body.nome,
+        crm: req.body.crm,
+        hospital: req.body.hospital,
+        telefone: req.body.telefone
+    }
+
+    res.status(200).json({
+        "msg": "Novo médico inserido com sucesso",
+        "medico": novoMedico
+    })
+
+});
+
+//Agora já definido oq será enviado, preciso informar o endpoint da requisição, então vou precisar de um método listen que escute em qual porta o usuário está tentando acessar
+//e libere o acesso se for a porta que eu defini.
+
+//Desta forma:
+
+app.listen(5050, () =>{
+    console.log("Servidor rodando na porta 5050");
+});
+
+
+//Na finalidade de testar o entendimento sobre o endpoint e testes de apis com Insonmia, criamos um novo método que já está sendo ouvido pelo middwlare
+//para informar que a requisição seguida no endpoint não pode ser encontrada.
+
+app.use((req, res) =>{
+    res.send("Rota não encontrada");
+});
+
+//Dessa forma eu defini qual será o endpoint do servidor e para ficar claro no método de estudo, coloquei uma mensagem informando o servidor que está rodando.
+//E pronto, já foi criada uma rota que envia uma mensagem para a requisição e inserimos uma função que retorna void, apenas para formato de ensino
+//e ela mostra uma mensagem no console informando o servidor que ela está ligada, se eu não tivesse a função, funcionaria? Sim. funcionaria só com app.listen(5050);
+
+
+
+Referência para estudo:
+
+Iwtraining Educação Avançada
+https://www.iwtraining.com.br/
+
+Youtube
+https://www.youtube.com/@xikaojr
+
+Playlist
+https://www.youtube.com/watch?v=qjRoNauY19g&list=PL_2cWEuf4ZjfW1hybMXduwSkJaQwsvrBx
+
+
+
+
+
